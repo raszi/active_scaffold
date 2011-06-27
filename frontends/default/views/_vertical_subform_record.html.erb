@@ -3,9 +3,10 @@
   readonly = (@record.readonly? or not @record.authorized_for?(:action => :update))
   action = @record.new_record? ? :create : (readonly ? :read : nil)
   show_actions = false
+  config = active_scaffold_config_for(@record.class)
 -%>
 <ol class="association-record <%= 'association-record-new' if @record.new_record? -%> <%= 'locked' if locked -%>">
-<% active_scaffold_config_for(@record.class).subform.columns.each :for => @record, :action => action, :flatten => true do |column| %>
+<% config.subform.columns.each :for => @record, :action => action, :flatten => true do |column| %>
 <%
   next unless in_subform?(column, parent_record)
   show_actions = true
